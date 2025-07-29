@@ -21,12 +21,7 @@ export async function middleware(request: NextRequest) {
   //
   //  Ensure that the header is present in the backend resource
   console.log("process.env.SECRET_KEY", process.env.SECRET_KEY);
-  return NextResponse.next({
-    headers: {
-      ...request.headers,
-      "api-secret": process.env.SECRET_KEY,
-    },
-  });
+  return NextResponse.next();
 }
 
 // Configure which paths the middleware runs on

@@ -7,6 +7,12 @@ const nextConfig: NextConfig = {
       {
         source: "/api/generate",
         destination: "https://botid-edge-test.vercel.app/api/generate",
+        headers: [
+          {
+            key: "api-secret",
+            value: process.env.SECRET_KEY || "",
+          },
+        ],
       },
     ];
   },

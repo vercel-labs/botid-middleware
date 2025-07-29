@@ -28,6 +28,7 @@ export async function middleware(request: NextRequest) {
 
     const headers = new Headers(request.headers);
 
+    headers.set("x-test", "test");
     headers.set("x-api-secret", process.env.SECRET_KEY || "");
     console.log("headers", headers);
     return NextResponse.rewrite(url, {

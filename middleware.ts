@@ -14,6 +14,7 @@ export async function middleware(request: NextRequest) {
     );
   }
 
+  console.log("request.nextUrl.pathname", request.nextUrl.pathname);
   // For /api/generate path, rewrite with headers
   if (request.nextUrl.pathname === "/api/generate") {
     const url = new URL(
@@ -28,10 +29,12 @@ export async function middleware(request: NextRequest) {
     const headers = new Headers(request.headers);
 
     headers.set("api-secret", process.env.SECRET_KEY || "");
+    console.log("headers", headers);
     return NextResponse.rewrite(url, {
       headers: headers,
     });
   }
+  console.log("fall through");
 
   // If no x-is-human header, just continue the request normally
   // IMPORTANT:

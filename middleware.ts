@@ -13,6 +13,29 @@ export async function middleware(request: NextRequest) {
       { status: 401 }
     );
   }
+  // Handle the /api/generate rewrite directly in middleware
+  console.log("request.nextUrl.pathname", request.nextUrl.pathname);
+  if (request.nextUrl.pathname === "/api/generate") {
+    console.log("rewrite");
+    // Create the destination URL
+    const url = new URL("https://botid-edge-test.vercel.app/api/generate");
+
+    // Copy search params
+    request.nextUrl.searchParams.forEach((value, key) => {
+      url.searchParams.set(key, value);
+    });
+
+    // Create new headers with the x-api-secret header
+    const headers = new Headers(request.headers);
+    headers.set("x-api-secret", process.env.SECRET_KEY || "");
+
+    console.log("Adding header x-api-secret:", process.env.SECRET_KEY);
+
+    // Rewrite to the external URL with headers
+    return NextResponse.rewrite(url, {
+      headers: headers,
+    });
+  }
 
   const requestHeaders = new Headers(request.headers);
   requestHeaders.set(

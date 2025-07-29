@@ -13,6 +13,26 @@ export async function middleware(request: NextRequest) {
       { status: 401 }
     );
   }
+
+  // For /api/generate path, rewrite with headers
+  if (request.nextUrl.pathname === "/api/generate") {
+    const url = new URL(
+      "https://botid-edge-test.vercel.app/api/generate",
+      request.url
+    );
+
+    request.nextUrl.searchParams.forEach((value, key) => {
+      url.searchParams.set(key, value);
+    });
+
+    const headers = new Headers(request.headers);
+
+    headers.set("api-secret", process.env.SECRET_KEY || "");
+    return NextResponse.rewrite(url, {
+      headers: headers,
+    });
+  }
+
   // If no x-is-human header, just continue the request normally
   // IMPORTANT:
   //  Be sure to confirm the existance of the x-is-human header in the backend resource
@@ -20,7 +40,6 @@ export async function middleware(request: NextRequest) {
   //  x-is-human to bypass the middleware check
   //
   //  Ensure that the header is present in the backend resource
-  console.log("process.env.SECRET_KEY", process.env.SECRET_KEY);
   return NextResponse.next();
 }
 

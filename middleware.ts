@@ -14,6 +14,11 @@ export async function middleware(request: NextRequest) {
     );
   }
 
+  const requestHeaders = new Headers(request.headers);
+  requestHeaders.set(
+    "x-api-secret",
+    process.env.SECRET_KEY || "your-secret-value"
+  );
   // If no x-is-human header, just continue the request normally
   // IMPORTANT:
   //  Be sure to confirm the existance of the x-is-human header in the backend resource
@@ -21,7 +26,9 @@ export async function middleware(request: NextRequest) {
   //  x-is-human to bypass the middleware check
   //
   //  Ensure that the header is present in the backend resource
-  return NextResponse.next();
+  return NextResponse.next({
+    headers: requestHeaders,
+  });
 }
 
 // Configure which paths the middleware runs on

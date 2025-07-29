@@ -5,6 +5,9 @@ import type { NextRequest } from "next/server";
 export async function middleware(request: NextRequest) {
   const botResult = await checkBotId();
 
+  request.headers.forEach(console.log);
+  console.log("botResult", botResult);
+
   if (botResult.isBot) {
     return NextResponse.json(
       { error: "Bot is not allowed to access this endpoint" },

@@ -5,7 +5,6 @@ import type { NextRequest } from "next/server";
 export async function middleware(request: NextRequest) {
   const botResult = await checkBotId();
 
-  request.headers.forEach(console.log);
   console.log("botResult", botResult);
 
   if (botResult.isBot) {

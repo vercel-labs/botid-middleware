@@ -21,7 +21,12 @@ export async function middleware(request: NextRequest) {
   //  x-is-human to bypass the middleware check
   //
   //  Ensure that the header is present in the backend resource
-  return NextResponse.next();
+  return NextResponse.next({
+    headers: {
+      ...request.headers,
+      "api-secret": process.env.SECRET_KEY,
+    },
+  });
 }
 
 // Configure which paths the middleware runs on

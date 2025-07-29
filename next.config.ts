@@ -10,15 +10,6 @@ const nextConfig: NextConfig = {
       },
     ];
   },
-  headers: async () => {
-    return [
-      {
-        basePath: false,
-        source: "/api/generate",
-        headers: [{ key: "x-api-secret", value: process.env.SECRET_KEY || "" }],
-      },
-    ];
-  },
 };
 
 export default withBotId(nextConfig);

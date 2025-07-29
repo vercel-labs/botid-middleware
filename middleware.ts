@@ -21,6 +21,7 @@ export async function middleware(request: NextRequest) {
   //  x-is-human to bypass the middleware check
   //
   //  Ensure that the header is present in the backend resource
+  console.log("process.env.SECRET_KEY", process.env.SECRET_KEY);
   return NextResponse.next({
     headers: {
       ...request.headers,

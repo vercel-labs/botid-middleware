@@ -15,7 +15,7 @@ export const GenerateButton = () => {
     });
     const data = await response.json();
     setIsLoading(false);
-    setValue(data.result);
+    setValue(data.random);
   };
 
   return (
